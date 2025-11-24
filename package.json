@@ -1,0 +1,24 @@
+{
+  "name": "express-app",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/FlavioCervantes/Express-App#readme",
+  "bugs": {
+    "url": "https://github.com/FlavioCervantes/Express-App/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlavioCervantes/Express-App.git"
+  },
+  "license": "ISC",
+  "author": "Flavio Cervantes",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}
