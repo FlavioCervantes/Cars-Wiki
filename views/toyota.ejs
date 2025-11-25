@@ -1,0 +1,17 @@
+<%- include('partials/head.ejs') %>
+<h1>Toyota</h1>
+<%- include('partials/nav.ejs') %>
+
+<div style="background: rgba(255,0,0,0.1); padding: 1.5rem; margin: 2rem auto; max-width: 1200px; border: 2px solid #ff0000; border-radius: 8px;">
+    <h2 style="color: #ff0000;">All Toyota Models</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center;">
+        <% models.forEach(function(model) { %>
+            <span class="badge" style="background: linear-gradient(135deg, #ff0000, #ff6b00); padding: 0.5rem 1rem; border-radius: 5px; color: white; font-weight: 700;"><%= model %></span>
+        <% }); %>
+    </div>
+</div>
+
+
+
+<img src="/img/fj.jpg" width="1000px">
+<%- include('partials/footer.ejs') %>
