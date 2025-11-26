@@ -1,10 +1,19 @@
 //A simple Express.js application that serves dynamic web pages about cars using EJS templating engine and API Ninjas Cars API.
 //Author - Flavio Cervantes
 //https://api.api-ninjas.com/v1/carmakes
+
+
 import express from 'express';
 import fetch from 'node-fetch';
-import { getModels } from 'car-info';
 
+// car-info package to get car models (NPM)
+//https://www.npmjs.com/package/car-info
+import { getModels } from 'car-info';
+import {getMakes} from 'car-info';
+
+ 
+
+const makes = getMakes();
 const app = express();
 app.set("view engine", "ejs");
 // use of the public folder.
@@ -12,18 +21,17 @@ app.use(express.static("public"));
 
 const apiKey = "a9HuAwSgSe04zsvPh3KDZA==nEolnlJz7PmLmAod";
 
-app.get('/', async(req, res) => {
-    let url = `https://api.api-ninjas.com/v1/cars?limit=10&make=toyota`;
-    let response = await fetch(url, {
-        headers: { 'X-Api-Key': apiKey }
-    });
-    let cars = await response.json();
-    console.log('Cars data:', cars);
-    if (!Array.isArray(cars)) {
-        cars = [];
-    }
-    res.render("index", {cars})
+
+// Home Route 
+ // N P  M  C A R  M A K E S
+app.get('/', (req, res) => {
+    // Get all car makes from car-info package (NPM)
+    const carmakes = getMakes();
+    console.log('Car makes from NPM:', carmakes);
+    res.render("index", {carmakes})
 });
+
+// T O Y O T A   H O N D A   N I S S A N   M A Z D A   R O U T E S - API  N I N J A S
 
 app.get('/toyota', async (req, res) => {
     // Get all Toyota models from car-info package
@@ -34,11 +42,15 @@ app.get('/toyota', async (req, res) => {
     let response = await fetch(url, {
         headers: { 'X-Api-Key': apiKey }
     });
+    // Get JSON data
     let cars = await response.json();
+    console.log('Cars data:', cars);
     if (!Array.isArray(cars)) {
         cars = [];
+        console.log('No car data found, setting cars to empty array.');
     }
     res.render('toyota', {cars, models});
+    
 });
 
 app.get('/honda', async (req, res) => {
@@ -50,10 +62,12 @@ app.get('/honda', async (req, res) => {
     let response = await fetch(url, {
         headers: { 'X-Api-Key': apiKey }
     });
+    // Get JSON data
     let cars = await response.json();
     if (!Array.isArray(cars)) {
         cars = [];
     }
+    // Render the Honda page with car data and models
     res.render('honda', {cars, models});
 });
 
@@ -66,10 +80,12 @@ app.get('/nissan', async (req, res) => {
     let response = await fetch(url, {
         headers: { 'X-Api-Key': apiKey }
     });
+    // Get JSON data
     let cars = await response.json();
     if (!Array.isArray(cars)) {
         cars = [];
     }
+    // Render the Nissan page with car data and models
     res.render('nissan', {cars, models});
 });
 
@@ -82,61 +98,26 @@ app.get('/mazda', async (req, res) => {
     let response = await fetch(url, {
         headers: { 'X-Api-Key': apiKey }
     });
+    // Get JSON data
     let cars = await response.json();
+    // Check if cars is an array
     if (!Array.isArray(cars)) {
         cars = [];
     }
+    // Render the Mazda page with car data and models
     res.render('mazda', {cars, models});
 });
 
+// start the server
 app.listen(3000, () => {
    console.log('server started');
 });
 
-app.get('/make', async (req, res) => {
-    let make = req.query.make || 'toyota';
-    let url = `https://api.api-ninjas.com/v1/cars?make=${make}&limit=20`;
-    let response = await fetch(url, {
-        headers: { 'X-Api-Key': apiKey }
-    });
-    let CarsMake = await response.json();
-    console.log(CarsMake);
-    res.render('make', {CarsMake});
-});
 
-app.get('/models', async (req, res) => {
-    let model = req.query.model || 'camry';
-    let url = `https://api.api-ninjas.com/v1/cars?model=${model}&limit=20`;
-    let response = await fetch(url, {
-        headers: { 'X-Api-Key': apiKey }
-    });
-    let CarModels = await response.json();
-    console.log(CarModels);
-    res.render('models', { CarModels});
-});
 
-app.get('/trim', async (req, res) => {
-    let year = req.query.year || '2020';
-    let url = `https://api.api-ninjas.com/v1/cars?year=${year}&limit=20`;
-    let response = await fetch(url, {
-        headers: { 'X-Api-Key': apiKey }
-    });
-    let CarTrim = await response.json();
-    console.log(CarTrim);
-    res.render('trim', { CarTrim});
-});
 
-app.get('/details', async (req, res) => {
-    let make = req.query.make || 'toyota';
-    let model = req.query.model || 'camry';
-    let url = `https://api.api-ninjas.com/v1/cars?make=${make}&model=${model}&limit=1`;
-    let response = await fetch(url, {
-        headers: { 'X-Api-Key': apiKey }
-    });
-    let CarDetails = await response.json();
-    console.log(CarDetails);
-    res.render('details', { CarDetails});
-});
+
+
 
 // End of index.mjs
 
